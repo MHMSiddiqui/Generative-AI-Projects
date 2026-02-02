@@ -1,83 +1,137 @@
-## YouTube Summarizer + Q&A (HTML/CSS/JS + Flask + Groq)
+```markdown
+# 🎬 YouTube Summarizer & RAG Q&A
 
-Paste a YouTube URL to get:
-- **Transcript** (prefers YouTube captions when available)
-- **AI summary**
-- **Q&A** grounded in the transcript (retrieval + LLM answer)
+A powerful, lightweight web application that generates detailed summaries of YouTube videos and allows users to ask questions about the video content. Powered by **Groq** (Llama 3.3 & Whisper), **Flask**, and **Scikit-Learn** for local Retrieval-Augmented Generation (RAG).
 
-This repo includes a modern **HTML/CSS/JavaScript** frontend and a **Flask** backend API that runs the Python logic.
+## ✨ Key Features
 
-### Features
-- **Clean interactive UI** (copy/download, smooth transitions)
-- **Transcript from captions** via `youtube-transcript-api`
-- Optional **audio → Whisper** fallback (requires `ffmpeg`)
-- **Local retrieval** (TF‑IDF) + Groq LLM for Q&A
+* **Smart Summarization**: Generates concise, structured summaries using Llama 3.3 (via Groq).
+* **Interactive Q&A**: Chat with the video! Ask specific questions and get answers based strictly on the transcript context.
+* **Dual Transcript Strategy**:
+    1.  **API Fetch**: Fast retrieval of existing captions/transcripts.
+    2.  **Audio Fallback**: Downloads audio and transcribes it using **Whisper Large V3** if no captions exist.
+* **Lightweight RAG**: Uses TF-IDF vectorization and Cosine Similarity for fast, local context retrieval without heavy vector databases.
+* **Modern UI**: Responsive Dark Mode interface built with vanilla HTML/JS/CSS.
+* **Export Options**: Download raw transcripts or generated summaries as text files.
 
-### Project files
-- `index.html` / `styles.css` / `script.js`: frontend
-- `app.py`: Flask backend API
-- `main.py`: original Streamlit version (kept for reference)
+## 🛠️ Tech Stack
 
-## Requirements
-- **Python 3.9+** (recommended 3.10/3.11)
-- A **Groq API key**
+* **Backend**: Flask, yt-dlp, YouTube Transcript API.
+* **AI/Inference**: Groq API (Llama-3.3-70b-versatile, Whisper-large-v3).
+* **Vector Search**: Scikit-Learn (TF-IDF, Cosine Similarity).
+* **Frontend**: Vanilla JavaScript, HTML5, CSS3.
+* **Containerization**: Docker.
 
-Optional:
-- **ffmpeg** (only needed if you enable the audio transcription fallback)
+---
 
-## Quickstart (Windows PowerShell)
+## 🚀 Getting Started
 
-### 1) Install dependencies
+### Prerequisites
 
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-```
+* **Python 3.11+**
+* **FFmpeg** (Required for audio processing/transcription fallback)
+* **Groq API Key** (Get one at [console.groq.com](https://console.groq.com))
 
-### 2) Set your API key
+### Option A: Local Installation
 
-Create a `.env` file in the project root:
+1.  **Clone the repository**
+    ```bash
+    git clone [https://github.com/yourusername/youtube-summarizer.git](https://github.com/yourusername/youtube-summarizer.git)
+    cd youtube-summarizer
+    ```
+
+2.  **Set up a virtual environment**
+    ```bash
+    python -m venv venv
+    # Windows
+    venv\Scripts\activate
+    # macOS/Linux
+    source venv/bin/activate
+    ```
+
+3.  **Install dependencies**
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4.  **Install FFmpeg**
+    * **Ubuntu/Debian**: `sudo apt install ffmpeg`
+    * **macOS**: `brew install ffmpeg`
+    * **Windows**: Download binaries and add to PATH.
+
+5.  **Configure Environment**
+    Create a `.env` file in the root directory:
+    ```env
+    GROQ_API_KEY=your_groq_api_key_here
+    ```
+
+6.  **Run the Application**
+    ```bash
+    python app.py
+    ```
+    Access the app at `http://localhost:5000`.
+
+### Option B: Docker Deployment
+
+1.  **Build the Image**
+    ```bash
+    docker build -t youtube-summarizer .
+    ```
+
+2.  **Run the Container**
+    ```bash
+    docker run -p 5000:5000 -e GROQ_API_KEY=your_api_key_here youtube-summarizer
+    ```
+
+---
+
+## 📖 Usage Guide
+
+1.  **Input URL**: Paste a standard YouTube link (e.g., `https://www.youtube.com/watch?v=...`).
+2.  **Configuration**:
+    * Add optional custom instructions (e.g., "Focus on technical details").
+    * Check "Enable audio transcription fallback" if the video has no captions.
+3.  **Generate**: Click the **🚀 Generate** button.
+4.  **Review**: Read the generated summary.
+5.  **Ask**: Scroll down to the Q&A section to ask specific questions.
+6.  **Inspect**: Toggle "View source chunks" to see which parts of the transcript were used for the answer.
+
+## 📂 Project Structure
 
 ```text
-GROQ_API_KEY=your_groq_key_here
+.
+├── app.py                # Main Flask application & RAG logic
+├── Dockerfile            # Docker configuration
+├── requirements.txt      # Python dependencies
+├── index.html            # Frontend structure
+├── script.js             # Frontend logic & API calls
+└── styles.css            # Dark mode styling
+
 ```
 
-### 3) Run the backend
+## ⚙️ Configuration Details
 
-```powershell
-python app.py
+| Variable | Description |
+| --- | --- |
+| `GROQ_API_KEY` | **Required.** Your API key for Groq Cloud. |
+| `MAX_AUDIO_SIZE_MB` | (In `app.py`) Limit for audio file size sent to Whisper (Default: 25MB). |
+| `WHISPER_MODEL` | (In `app.py`) Default: `whisper-large-v3`. |
+| `SUMMARY_MODEL` | (In `app.py`) Default: `llama-3.3-70b-versatile`. |
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
 ```
 
-Backend will be available at `http://localhost:5000`.
-
-### 4) Run the frontend
-
-Open `index.html` using a simple local server (recommended):
-
-```powershell
-python -m http.server 8000
 ```
-
-Then open `http://localhost:8000` in your browser.
-
-## API endpoints
-- **POST** `/api/process`
-  - Body:
-    - `youtube_url` (string)
-    - `summary_instructions` (string, optional)
-    - `enable_audio_fallback` (boolean, optional)
-- **POST** `/api/ask`
-  - Body:
-    - `question` (string)
-    - `chunks`, `vectorizer`, `matrix` (returned from `/api/process`)
-- **GET** `/api/health`
-
-## Notes / Troubleshooting
-- **No captions?** Turn on “audio transcription fallback” (requires **ffmpeg**).
-- **Long videos** may fail audio fallback due to the Groq Whisper upload size limit.
-- If the frontend can’t reach the API, confirm `app.py` is running on port **5000**.
-
-## License
-Add a license if you plan to publish this publicly.
-
