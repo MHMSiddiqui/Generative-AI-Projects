@@ -1,0 +1,11 @@
+langchain
+langchain-groq
+langchain-community
+langchain-core
+chromadb
+pandas
+python-dotenv
+beautifulsoup4
+lxml
+flask
+flask-cors
