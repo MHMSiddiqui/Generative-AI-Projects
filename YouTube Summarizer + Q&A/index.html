@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Summarizer + Q&A</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎬 YouTube Summarizer</h1>
+        </header>
+
+        <main class="content">
+                <div class="input-section">
+                    <div class="input-group">
+                        <div class="url-input-container">
+                            <input type="text" id="youtube-url" placeholder="https://www.youtube.com/watch?v=..." />
+                        </div>
+                        <button id="generate-btn" class="btn btn-primary">🚀 Generate</button>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <label for="summary-instructions">Custom Instructions <span class="optional">(optional)</span></label>
+                    <textarea id="summary-instructions" rows="2" placeholder="e.g., Focus on key takeaways and main points..."></textarea>
+                </div>
+
+                <div class="checkbox-section">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="audio-fallback" />
+                        <span>Enable audio transcription fallback</span>
+                    </label>
+                </div>
+
+                <div id="error-message" class="error-message" style="display: none;"></div>
+                <div id="success-message" class="success-message" style="display: none;"></div>
+                <div id="warning-message" class="warning-message" style="display: none;"></div>
+
+                <div id="loading-spinner" class="loading-spinner" style="display: none;">
+                    <div class="spinner"></div>
+                    <span id="loading-text"></span>
+                </div>
+
+                <div id="video-info" class="video-info" style="display: none;">
+                    <div class="video-panel">
+                        <div class="video-thumbnail">
+                            <img id="video-thumbnail" src="" alt="Video thumbnail" />
+                        </div>
+                    </div>
+                </div>
+
+                <div id="summary-section" class="summary-section" style="display: none;">
+                    <hr class="divider" />
+                    <div class="section-header">
+                        <h2>📌 Summary</h2>
+                        <div class="action-buttons">
+                            <button id="copy-summary-btn" class="btn-icon" title="Copy summary">📋</button>
+                            <button id="download-summary-btn" class="btn-icon" title="Download summary">⬇️</button>
+                        </div>
+                    </div>
+                    <div id="summary-content" class="summary-content"></div>
+                    
+                    <div class="download-buttons">
+                        <button id="download-transcript-btn" class="btn btn-secondary">⬇️ Download Transcript</button>
+                    </div>
+                </div>
+
+                <div id="qa-section" class="qa-section" style="display: none;">
+                    <h2>❓ Ask Questions</h2>
+                    <div class="qa-input-group">
+                        <input type="text" id="question-input" placeholder="Ask anything about the video..." />
+                        <button id="ask-btn" class="btn btn-primary">Ask</button>
+                    </div>
+                    <div id="answer-container" class="answer-container" style="display: none;"></div>
+                    <div id="chunks-expander" class="expander" style="display: none;">
+                        <button id="toggle-chunks-btn" class="toggle-btn">View source chunks</button>
+                        <div id="chunks-content" class="expander-content"></div>
+                    </div>
+                </div>
+
+                <div id="transcript-section" class="transcript-section" style="display: none;">
+                    <div class="expander">
+                        <button id="toggle-transcript-btn" class="toggle-btn">📜 View Full Transcript</button>
+                        <div id="transcript-content" class="expander-content" style="display: none;">
+                            <div class="transcript-header">
+                                <button id="copy-transcript-btn" class="btn-icon" title="Copy transcript">📋</button>
+                            </div>
+                            <textarea id="transcript-textarea" readonly></textarea>
+                        </div>
+                    </div>
+                </div>
+            </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
