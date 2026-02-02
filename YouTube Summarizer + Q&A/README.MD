@@ -1,6 +1,11 @@
 
 # 🎬 YouTube Summarizer & RAG Q&A
 
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
+![Jupyter Notebook](https://img.shields.io/badge/Tools-Jupyter%20Notebook-orange)
+![License](https://img.shields.io/badge/License-MIT-green)
+![Status](https://img.shields.io/badge/Status-Complete-success)
+
 A powerful, lightweight web application that generates detailed summaries of YouTube videos and allows users to ask questions about the video content. Powered by **Groq** (Llama 3.3 & Whisper), **Flask**, and **Scikit-Learn** for local Retrieval-Augmented Generation (RAG).
 
 ## ✨ Key Features
