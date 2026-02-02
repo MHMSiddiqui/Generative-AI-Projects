@@ -1,4 +1,4 @@
-```markdown
+
 # 🎬 YouTube Summarizer & RAG Q&A
 
 A powerful, lightweight web application that generates detailed summaries of YouTube videos and allows users to ask questions about the video content. Powered by **Groq** (Llama 3.3 & Whisper), **Flask**, and **Scikit-Learn** for local Retrieval-Augmented Generation (RAG).
